@@ -6,8 +6,7 @@
  * Specially designed for high-end aesthetics, nail design & beauty studios.
  * 
  * Focus: Sophisticated polish, zero layout shift (CLS), 60FPS performance,
- * buttery smooth Intersection Observer scroll reveals, elegant CTA tactile feedback,
- * and adaptive mobile/tablet/reduced-motion awareness.
+ * buttery smooth CTA tactile feedback, micro-ripples, and adaptive mobile/tablet awareness.
  */
 
 export interface NailInteractivityOptions {
@@ -37,24 +36,17 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
   window.__nailInteractivityInitialized = true;
 
   const {
-    scrollRevealSelector = [
-      'section > div',
-      '[data-slide-entrance]',
-      '.signature-card',
-      'article',
-      'blockquote',
-      '.faq-item',
-      '.gallery-item'
-    ].join(', '),
+    scrollRevealSelector = '.ux-reveal-item',
     ctaSelector = [
       'a[href*="wa.me"]',
       'a[href="#agenda"]',
+      'a[href="#servicos"]',
       'button[type="submit"]',
       'button[type="button"].cta-btn',
       '[data-cta]'
     ].join(', '),
-    durationDesktop = 750,
-    durationMobile = 600,
+    durationDesktop = 650,
+    durationMobile = 500,
   } = options;
 
   // 1. Hardware & Preference Detection
@@ -84,23 +76,21 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
          Nail Aesthetics Micro-Interactions (Dynamic Injection)
          ========================================================================== */
       
-      /* Base state for scroll elements before intersection */
+      /* Optional explicit scroll reveal elements */
       .ux-scroll-init {
         opacity: 0;
-        transform: translate3d(0, 20px, 0);
+        transform: translate3d(0, 16px, 0);
         will-change: opacity, transform;
         transition-property: opacity, transform;
         transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      /* Mobile adjustment: smaller translate to eliminate any CLS or abrupt movement */
       @media (max-width: 767px) {
         .ux-scroll-init {
-          transform: translate3d(0, 12px, 0);
+          transform: translate3d(0, 8px, 0);
         }
       }
 
-      /* Revealed active state */
       .ux-scroll-visible {
         opacity: 1 !important;
         transform: translate3d(0, 0, 0) !important;
@@ -110,26 +100,26 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
       .ux-cta-interactive {
         position: relative;
         overflow: hidden;
-        transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1),
-                    background-color 300ms ease,
-                    box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1),
-                    filter 300ms ease !important;
+        transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 250ms ease,
+                    box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 250ms ease !important;
         backface-visibility: hidden;
         -webkit-font-smoothing: subpixel-antialiased;
       }
 
-      /* Hover state: ultra-delicate 1.8% scale lift with luminous halo */
+      /* Hover state: delicate scale lift with soft luminous halo */
       @media (hover: hover) and (pointer: fine) {
         .ux-cta-interactive:hover {
-          transform: translateY(-1.5px) scale(1.018);
-          filter: brightness(1.03);
-          box-shadow: 0 8px 24px -6px rgba(216, 160, 164, 0.22);
+          transform: translateY(-1.5px) scale(1.015);
+          filter: brightness(1.04);
+          box-shadow: 0 8px 24px -6px rgba(216, 160, 164, 0.25);
         }
       }
 
       /* Active/Click feedback: tactile soft press */
       .ux-cta-interactive:active {
-        transform: translateY(0.5px) scale(0.982) !important;
+        transform: translateY(0.5px) scale(0.985) !important;
         filter: brightness(0.97) !important;
         box-shadow: 0 2px 8px -2px rgba(216, 160, 164, 0.15) !important;
         transition-duration: 120ms !important;
@@ -139,9 +129,9 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
       .ux-ripple-wave {
         position: absolute;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(216, 160, 164, 0.18) 70%, transparent 100%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.32) 0%, rgba(216, 160, 164, 0.2) 70%, transparent 100%);
         transform: scale(0);
-        animation: uxRippleAnim 550ms cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        animation: uxRippleAnim 500ms cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
         pointer-events: none;
         z-index: 10;
       }
@@ -181,14 +171,15 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
   let observer: IntersectionObserver | null = null;
 
   const initScrollObserver = () => {
-    // If reduced motion or low battery, skip motion and keep content immediately visible
     if (prefersReducedMotion || isLowPowerMode) {
       return;
     }
 
+    const elements = document.querySelectorAll(scrollRevealSelector);
+    if (!elements.length) return;
+
     if (!('IntersectionObserver' in window)) {
-      // Fallback for legacy browsers: show everything immediately
-      document.querySelectorAll(scrollRevealSelector).forEach((el) => {
+      elements.forEach((el) => {
         el.classList.add('ux-scroll-visible');
       });
       return;
@@ -201,32 +192,25 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const target = entry.target as HTMLElement;
-            // Apply calculated transition duration for fluid elegance
             target.style.transitionDuration = `${duration}ms`;
             target.classList.add('ux-scroll-visible');
-            // Unobserve immediately to release resources (zero ongoing CPU usage)
             obs.unobserve(target);
           }
         });
       },
       {
-        threshold: isMobile ? 0.08 : 0.15,
-        rootMargin: isMobile ? '0px 0px -40px 0px' : '0px 0px -70px 0px',
+        threshold: isMobile ? 0.05 : 0.1,
+        rootMargin: '0px 0px 50px 0px', // Preload ahead of viewport
       }
     );
 
-    // Collect elements
-    const elements = document.querySelectorAll(scrollRevealSelector);
     elements.forEach((el, index) => {
       const htmlEl = el as HTMLElement;
-      // Skip if already visible or inside hero to prevent above-the-fold delay
       if (htmlEl.closest('#hero') || htmlEl.dataset.skipScrollAnim === 'true') {
         return;
       }
 
-      // Stagger slight delay for adjacent cards (up to 3 items)
-      const siblingIndex = index % 3;
-      const delay = siblingIndex * 80;
+      const delay = (index % 3) * 60;
       if (delay > 0 && !isMobile) {
         htmlEl.style.transitionDelay = `${delay}ms`;
       }
@@ -241,12 +225,10 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
     const ctas = document.querySelectorAll<HTMLElement>(ctaSelector);
 
     ctas.forEach((btn) => {
-      // Mark with interactive class
       if (!btn.classList.contains('ux-cta-interactive')) {
         btn.classList.add('ux-cta-interactive');
       }
 
-      // Add delicate ripple feedback on touch/click
       const handlePointerDown = (e: MouseEvent | TouchEvent) => {
         if (prefersReducedMotion) return;
 
@@ -269,7 +251,7 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
           if (ripple.parentNode === btn) {
             btn.removeChild(ripple);
           }
-        }, 580);
+        }, 500);
       };
 
       btn.addEventListener('mousedown', handlePointerDown, { passive: true });
@@ -284,11 +266,10 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
       attachButtonInteractions();
     });
   } else {
-    // Small timeout to allow framework tree hydration to settle
     setTimeout(() => {
       initScrollObserver();
       attachButtonInteractions();
-    }, 60);
+    }, 40);
   }
 
   // Cleanup handler in case of SPA navigation or unmount
@@ -304,7 +285,6 @@ export function initNailAestheticsInteractivity(options: NailInteractivityOption
   };
 }
 
-// Make globally accessible if running in script tag
 if (typeof window !== 'undefined') {
   window.initNailAestheticsInteractivity = initNailAestheticsInteractivity;
 }

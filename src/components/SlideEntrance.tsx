@@ -11,28 +11,17 @@ export interface SlideEntranceProps {
   offset?: number;
 }
 
-/**
- * SlideEntrance component
- * Implements a lateral slide-in animation with:
- * - Configurable direction: 'left' (starts at translateX(-28px)) or 'right' (starts at translateX(28px))
- * - Easing: cubic-bezier(0.22, 1, 0.36, 1)
- * - Duration: 600ms (0.6s)
- * - Viewport trigger threshold: ~20% (amount: 0.2)
- * - Executes only once (once: true) and remains permanently visible
- * - Strictly respects prefers-reduced-motion
- */
 export const SlideEntrance: React.FC<SlideEntranceProps> = ({
   children,
   direction = 'left',
   className = '',
-  duration = 0.6,
-  threshold = 0.2,
+  duration = 0.55,
+  threshold = 0.05,
   delay = 0,
-  offset = 28,
+  offset = 20,
 }) => {
   const shouldReduceMotion = useReducedMotion();
 
-  // Accessibility fallback: if reduced motion is requested, render without animation
   if (shouldReduceMotion) {
     return (
       <div data-slide-entrance="" className={className}>
@@ -48,7 +37,7 @@ export const SlideEntrance: React.FC<SlideEntranceProps> = ({
       data-slide-entrance=""
       initial={{ opacity: 0, x: initialX }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: threshold }}
+      viewport={{ once: true, amount: threshold, margin: '60px 0px 0px 0px' }}
       transition={{
         duration,
         ease: [0.22, 1, 0.36, 1] as const,

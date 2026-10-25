@@ -12,7 +12,7 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
   className = '',
   delay = 0,
-  yOffset = 24,
+  yOffset = 20,
 }) => {
   const shouldReduceMotion = useReducedMotion();
 
@@ -24,9 +24,9 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     <motion.div
       initial={{ opacity: 0, y: yOffset }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: true, margin: '80px 0px 0px 0px' }}
       transition={{
-        duration: 0.65,
+        duration: 0.55,
         ease: 'easeOut',
         delay: delay,
       }}

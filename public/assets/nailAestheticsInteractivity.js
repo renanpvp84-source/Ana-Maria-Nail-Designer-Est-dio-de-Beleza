@@ -28,14 +28,14 @@
     style.textContent = `
       .ux-scroll-init {
         opacity: 0;
-        transform: translate3d(0, 20px, 0);
+        transform: translate3d(0, 16px, 0);
         will-change: opacity, transform;
         transition-property: opacity, transform;
         transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
       }
       @media (max-width: 767px) {
         .ux-scroll-init {
-          transform: translate3d(0, 12px, 0);
+          transform: translate3d(0, 8px, 0);
         }
       }
       .ux-scroll-visible {
@@ -45,19 +45,19 @@
       .ux-cta-interactive {
         position: relative;
         overflow: hidden;
-        transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms ease, box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease !important;
+        transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 250ms ease, box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 250ms ease !important;
         backface-visibility: hidden;
         -webkit-font-smoothing: subpixel-antialiased;
       }
       @media (hover: hover) and (pointer: fine) {
         .ux-cta-interactive:hover {
-          transform: translateY(-1.5px) scale(1.018);
-          filter: brightness(1.03);
-          box-shadow: 0 8px 24px -6px rgba(216, 160, 164, 0.22);
+          transform: translateY(-1.5px) scale(1.015);
+          filter: brightness(1.04);
+          box-shadow: 0 8px 24px -6px rgba(216, 160, 164, 0.25);
         }
       }
       .ux-cta-interactive:active {
-        transform: translateY(0.5px) scale(0.982) !important;
+        transform: translateY(0.5px) scale(0.985) !important;
         filter: brightness(0.97) !important;
         box-shadow: 0 2px 8px -2px rgba(216, 160, 164, 0.15) !important;
         transition-duration: 120ms !important;
@@ -65,9 +65,9 @@
       .ux-ripple-wave {
         position: absolute;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(216, 160, 164, 0.18) 70%, transparent 100%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.32) 0%, rgba(216, 160, 164, 0.2) 70%, transparent 100%);
         transform: scale(0);
-        animation: uxRippleAnim 550ms cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        animation: uxRippleAnim 500ms cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
         pointer-events: none;
         z-index: 10;
       }
@@ -87,15 +87,16 @@
   function initObserver() {
     if (prefersReducedMotion || isLowPowerMode) return;
 
-    var selector = 'section > div, [data-slide-entrance], .signature-card, article, blockquote, .faq-item, .gallery-item';
+    var selector = '.ux-reveal-item';
     var elements = document.querySelectorAll(selector);
+    if (!elements.length) return;
 
     if (!('IntersectionObserver' in window)) {
       elements.forEach(function (el) { el.classList.add('ux-scroll-visible'); });
       return;
     }
 
-    var duration = isMobile ? 600 : 750;
+    var duration = isMobile ? 500 : 650;
 
     var observer = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
@@ -107,13 +108,13 @@
         }
       });
     }, {
-      threshold: isMobile ? 0.08 : 0.15,
-      rootMargin: isMobile ? '0px 0px -40px 0px' : '0px 0px -70px 0px'
+      threshold: isMobile ? 0.05 : 0.1,
+      rootMargin: '0px 0px 50px 0px'
     });
 
     elements.forEach(function (el, index) {
       if (el.closest('#hero') || el.dataset.skipScrollAnim === 'true') return;
-      var delay = (index % 3) * 80;
+      var delay = (index % 3) * 60;
       if (delay > 0 && !isMobile) {
         el.style.transitionDelay = delay + 'ms';
       }
@@ -123,7 +124,7 @@
   }
 
   function initButtons() {
-    var ctaSelector = 'a[href*="wa.me"], a[href="#agenda"], button[type="submit"], button[type="button"].cta-btn, [data-cta]';
+    var ctaSelector = 'a[href*="wa.me"], a[href="#agenda"], a[href="#servicos"], button[type="submit"], button[type="button"].cta-btn, [data-cta]';
     var buttons = document.querySelectorAll(ctaSelector);
 
     buttons.forEach(function (btn) {
@@ -148,7 +149,7 @@
         btn.appendChild(ripple);
         setTimeout(function () {
           if (ripple.parentNode === btn) ripple.remove();
-        }, 580);
+        }, 500);
       }
 
       btn.addEventListener('mousedown', handlePointerDown, { passive: true });
@@ -165,6 +166,6 @@
     setTimeout(function () {
       initObserver();
       initButtons();
-    }, 60);
+    }, 40);
   }
 })();
