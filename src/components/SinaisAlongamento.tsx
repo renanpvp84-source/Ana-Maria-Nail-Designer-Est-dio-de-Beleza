@@ -22,10 +22,12 @@ export const SinaisAlongamento: React.FC = () => {
 
                 <div className="relative rounded-hand-2 overflow-hidden border border-[#262328] bg-[#141214] shadow-2xl shadow-black/80 aspect-[3/4] z-10">
                   <ResponsiveImage
-                    src="/assets/aistudio/ana_maria_real_clean.png"
-                    fallbackSrc="/assets/aistudio/ana_maria_portrait_clean.png"
+                    src="/assets/aistudio/ana_maria_real_clean.webp"
+                    fallbackSrc="/assets/aistudio/ana_maria_real_clean.webp"
                     alt="Foto real de Ana Maria Nail Designer com blazer bege e camisa branca"
                     aspectRatioClass="aspect-[3/4]"
+                    width={400}
+                    height={533}
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 42vw, 440px"
                     className="object-top hover:scale-103 transition-transform duration-700"
                   />

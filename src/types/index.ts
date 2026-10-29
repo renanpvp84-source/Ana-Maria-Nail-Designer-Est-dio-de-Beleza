@@ -4,6 +4,7 @@ export interface ServiceItem {
   tagline: string;
   description: string;
   image: string;
+  srcSet?: string;
   duration: string;
   highlights: string[];
   recommendedFor: string;

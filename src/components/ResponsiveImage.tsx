@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 interface ResponsiveImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
+  srcSet?: string;
   fallbackSrc?: string;
   alt: string;
   className?: string;
@@ -14,17 +15,22 @@ interface ResponsiveImageProps extends React.ImgHTMLAttributes<HTMLImageElement>
   loading?: 'lazy' | 'eager';
   fetchPriority?: 'high' | 'low' | 'auto';
   sizes?: string;
+  width?: number | string;
+  height?: number | string;
 }
 
 export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
   src,
-  fallbackSrc = '/assets/aistudio/unhas_6aede811.png',
+  srcSet,
+  fallbackSrc = '/assets/aistudio/unhas_6aede811.webp',
   alt,
   className = '',
   aspectRatioClass = '',
   loading = 'lazy',
   fetchPriority = 'auto',
   sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  width,
+  height,
   ...rest
 }) => {
   const [currentSrc, setCurrentSrc] = useState<string>(src);
@@ -37,7 +43,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     ? currentSrc.replace('/src/assets/', '/assets/')
     : currentSrc;
 
-  // Immediate check if already loaded or cached in browser
+  // Immediate check if already cached in browser memory
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
       setIsLoaded(true);
@@ -54,10 +60,10 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
 
   return (
     <div className={`relative overflow-hidden w-full h-full ${aspectRatioClass}`}>
-      {/* Background skeleton: only briefly shown while image is loading */}
+      {/* Background skeleton: only briefly rendered until image paints */}
       {!isLoaded && (
         <div
-          className="absolute inset-0 bg-[#1C1A1E] animate-pulse pointer-events-none z-0"
+          className="absolute inset-0 bg-[#1C1A1E] pointer-events-none z-0"
           aria-hidden="true"
         />
       )}
@@ -65,7 +71,10 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
       <img
         ref={imgRef}
         src={cleanSrc}
+        srcSet={hasError ? undefined : srcSet}
         alt={alt}
+        width={width}
+        height={height}
         loading={loading}
         fetchPriority={fetchPriority}
         decoding="async"
@@ -75,7 +84,6 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
         className={`w-full h-full object-cover transition-opacity duration-300 relative z-10 ${
           isLoaded ? 'opacity-100' : 'opacity-90'
         } ${className}`}
-        referrerPolicy="no-referrer"
         {...rest}
       />
     </div>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Check, Clock, Sparkles, Award } from 'lucide-react';
+import { ArrowUpRight, Award, Check, Clock, Sparkles } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { SERVICES, BUSINESS_INFO } from '../data/content';
 import { ServiceItem } from '../types';
 import { updateMetaTags } from '../hooks/useDynamicSEO';
 import { ResponsiveImage } from './ResponsiveImage';
+import { ArtisanSealIcon, PrecisionBrushIcon } from './ArtisanIcons';
 
 interface SignatureServicesProps {
   onSelectServiceForBooking: (serviceName: string) => void;
@@ -108,7 +109,8 @@ export const SignatureServices: React.FC<SignatureServicesProps> = ({ onSelectSe
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#1C1A1E]">
                   <ResponsiveImage
                     src={service.image}
-                    fallbackSrc="/assets/aistudio/unhas_6aede811.png"
+                    srcSet={service.srcSet}
+                    fallbackSrc="/assets/aistudio/unhas_6aede811.webp"
                     alt={`${service.name} - Nail Designer Ana Maria em Bacabal - MA`}
                     aspectRatioClass="aspect-[4/3]"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -211,7 +213,8 @@ export const SignatureServices: React.FC<SignatureServicesProps> = ({ onSelectSe
             <div className="relative aspect-[16/9] bg-[#1C1A1E]">
               <ResponsiveImage
                 src={selectedService.image}
-                fallbackSrc="/assets/aistudio/unhas_6aede811.png"
+                srcSet={selectedService.srcSet}
+                fallbackSrc="/assets/aistudio/unhas_6aede811.webp"
                 alt={selectedService.name}
                 aspectRatioClass="aspect-[16/9]"
                 sizes="(max-width: 640px) 100vw, 600px"

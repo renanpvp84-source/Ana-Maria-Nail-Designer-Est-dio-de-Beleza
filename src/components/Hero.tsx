@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowRight, Sparkles, ShieldCheck, Award } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { BUSINESS_INFO } from '../data/content';
 import { TypingSubtitle } from './TypingSubtitle';
 import { ResponsiveImage } from './ResponsiveImage';
+import { MagneticButton } from './MagneticButton';
+import { FiberglassCurveIcon, AutoclaveShieldIcon, DiamondShineIcon } from './ArtisanIcons';
 
 export const Hero: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -139,13 +141,18 @@ export const Hero: React.FC = () => {
 
             {/* Conversion CTA Group */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
-              <a
+              <MagneticButton
+                as="a"
                 href="#agenda"
-                className="min-h-[46px] inline-flex items-center justify-center gap-2.5 sm:gap-3 px-5 sm:px-7 py-3 sm:py-3.5 text-xs font-semibold uppercase tracking-wider text-[#0C0C0E] bg-[#D8A0A4] hover:bg-[#E2B2B6] active:scale-[0.98] rounded-lg transition-all shadow-lg shadow-[#D8A0A4]/20 whitespace-normal sm:whitespace-nowrap text-center"
+                maxDelta={8}
+                magneticRadius={28}
+                strength={0.22}
+                damping={0.14}
+                className="min-h-[46px] inline-flex items-center justify-center gap-2.5 sm:gap-3 px-5 sm:px-7 py-3 sm:py-3.5 text-xs font-semibold uppercase tracking-wider text-[#0C0C0E] bg-[#D8A0A4] hover:bg-[#E2B2B6] active:scale-[0.98] rounded-lg transition-all shadow-lg shadow-[#D8A0A4]/20 whitespace-normal sm:whitespace-nowrap text-center group"
               >
                 <span>Agendar Horário na Agenda</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
-              </a>
+              </MagneticButton>
 
               <a
                 href="#servicos"
@@ -190,9 +197,12 @@ export const Hero: React.FC = () => {
               {/* Main photo frame with organic border radius */}
               <div className="relative w-full rounded-hand-1 overflow-hidden border border-[#38343B] bg-[#141214] shadow-2xl shadow-black aspect-[4/5] z-10">
                 <ResponsiveImage
-                  src="/assets/images/hero_nail_art_portrait.jpg"
-                  fallbackSrc="/assets/images/hero_nail_art_portrait.webp"
+                  src="/assets/images/hero_nail_art_portrait.webp"
+                  srcSet="/assets/images/hero_nail_art_portrait-400w.webp 400w, /assets/images/hero_nail_art_portrait.webp 796w"
+                  fallbackSrc="/assets/images/hero_nail_art_portrait.jpg"
                   alt="Close-up editorial de alongamento de unhas em fibra de vidro com acabamento brilhante em Bacabal - MA"
+                  width={480}
+                  height={600}
                   loading="eager"
                   fetchPriority="high"
                   sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 520px"
@@ -222,7 +232,7 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* 3 Trust Pillars Strip */}
+        {/* 3 Trust Pillars Strip with Bespoke Artisan Line-Art Icons */}
         <motion.div
           initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -231,10 +241,10 @@ export const Hero: React.FC = () => {
         >
           <div className="flex items-start gap-3.5 p-4 rounded-xl bg-[#141214] border border-[#262328] shadow-md">
             <div className="p-2.5 rounded-lg bg-[#1C1A1E] text-[#D8A0A4] shrink-0 border border-[#262328]">
-              <Sparkles className="w-5 h-5" />
+              <DiamondShineIcon className="w-5 h-5 text-[#D8A0A4]" />
             </div>
             <div>
-              <h3 className="text-sm font-serif font-semibold text-[#F7F3F1]">Produtos de Alto Padrão</h3>
+              <p className="text-sm font-serif font-semibold text-[#F7F3F1]">Produtos de Alto Padrão</p>
               <p className="text-xs text-[#E8D9D4]/80 mt-1 leading-relaxed font-light">
                 Fibras de alta densidade e géis nobres testados para garantir acabamento fino, resistência e durabilidade.
               </p>
@@ -243,10 +253,10 @@ export const Hero: React.FC = () => {
 
           <div className="flex items-start gap-3.5 p-4 rounded-xl bg-[#141214] border border-[#262328] shadow-md">
             <div className="p-2.5 rounded-lg bg-[#1C1A1E] text-[#D8A0A4] shrink-0 border border-[#262328]">
-              <ShieldCheck className="w-5 h-5" />
+              <AutoclaveShieldIcon className="w-5 h-5 text-[#D8A0A4]" />
             </div>
             <div>
-              <h3 className="text-sm font-serif font-semibold text-[#F7F3F1]">Biossegurança & Higiene</h3>
+              <p className="text-sm font-serif font-semibold text-[#F7F3F1]">Biossegurança & Higiene</p>
               <p className="text-xs text-[#E8D9D4]/80 mt-1 leading-relaxed font-light">
                 Materiais esterilizados em autoclave, descartáveis individuais e desinfecção rigorosa do estúdio.
               </p>
@@ -255,10 +265,10 @@ export const Hero: React.FC = () => {
 
           <div className="flex items-start gap-3.5 p-4 rounded-xl bg-[#141214] border border-[#262328] shadow-md">
             <div className="p-2.5 rounded-lg bg-[#1C1A1E] text-[#D8A0A4] shrink-0 border border-[#262328]">
-              <Award className="w-5 h-5" />
+              <FiberglassCurveIcon className="w-5 h-5 text-[#D8A0A4]" />
             </div>
             <div>
-              <h3 className="text-sm font-serif font-semibold text-[#F7F3F1]">Especialista em Fibra</h3>
+              <p className="text-sm font-serif font-semibold text-[#F7F3F1]">Especialista em Fibra</p>
               <p className="text-xs text-[#E8D9D4]/80 mt-1 leading-relaxed font-light">
                 Profissional com qualificação avançada em técnicas modernas de curvatura simétrica e manicure russa.
               </p>

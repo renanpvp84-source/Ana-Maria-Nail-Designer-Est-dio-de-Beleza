@@ -6,8 +6,7 @@
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https:; base-uri 'self'; form-action 'self' https://wa.me;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https: ws: wss:; base-uri 'self'; form-action 'self' https://wa.me;" />
     <title>Ana Maria Nail Designer em Bacabal - MA | Salão de Beleza</title>
     <meta name="description" content="Especialista em fibra de vidro e esmaltação em gel em Bacabal - MA. Unhas com acabamento natural e biossegurança. Agende seu horário com Ana Maria!" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -26,14 +25,14 @@
     <meta property="og:title" content="Ana Maria Nail Designer em Bacabal - MA | Alongamento & Gel" />
     <meta property="og:description" content="Especialista em fibra de vidro com acabamento natural e esmaltação em gel de alto padrão em Bacabal - MA. Avaliação 5,0 no Google Maps." />
     <meta property="og:url" content="https://anamaria-unhas.com.br/" />
-    <meta property="og:image" content="/assets/aistudio/unhas_6aede811.png" />
+    <meta property="og:image" content="/assets/aistudio/unhas_6aede811.webp" />
     <meta property="og:image:alt" content="Ana Maria Nail Designer e procedimentos de unhas em Bacabal - MA" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ana Maria Nail Designer em Bacabal - MA | Salão de Beleza" />
     <meta name="twitter:description" content="Alongamento em fibra de vidro e esmaltação em gel de alto padrão em Bacabal - MA. Atendimento exclusivo com hora marcada." />
-    <meta name="twitter:image" content="/assets/aistudio/unhas_6aede811.png" />
+    <meta name="twitter:image" content="/assets/aistudio/unhas_6aede811.webp" />
 
     <!-- Schema.org LocalBusiness (BeautySalon) & FAQPage JSON-LD -->
     <script type="application/ld+json">
@@ -43,7 +42,7 @@
       "@id": "https://anamaria-unhas.com.br/#salon",
       "name": "Salão de Beleza Ana Maria",
       "alternateName": "Ana Maria Nail Designer",
-      "image": "https://anamaria-unhas.com.br/assets/aistudio/unhas_6aede811.png",
+      "image": "https://anamaria-unhas.com.br/assets/aistudio/unhas_6aede811.webp",
       "description": "Estúdio especializado em alongamento em fibra de vidro, esmaltação em gel de alto padrão, manicure russa e cursos de nail design em Bacabal - MA.",
       "address": {
         "@type": "PostalAddress",
@@ -171,9 +170,16 @@
       ]
     }
     </script>
+    <!-- LCP Image Preload for Instant Discovery with Responsive imagesrcset -->
+    <link rel="preload" as="image" href="/assets/images/hero_nail_art_portrait-400w.webp" imagesrcset="/assets/images/hero_nail_art_portrait-400w.webp 400w, /assets/images/hero_nail_art_portrait.webp 796w" imagesizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 520px" type="image/webp" fetchpriority="high" />
+
+    <!-- Google Fonts Optimization (Non-Render-Blocking with Preconnect) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    </noscript>
   </head>
   <body class="bg-[#0C0C0E] text-[#F7F3F1] selection:bg-[#D8A0A4]/30 selection:text-white antialiased overflow-x-hidden">
     <div id="root"></div>

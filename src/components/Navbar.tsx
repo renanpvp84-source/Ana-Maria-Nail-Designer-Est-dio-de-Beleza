@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { MagneticButton } from './MagneticButton';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,12 +37,17 @@ export const Navbar: React.FC = () => {
 
         {/* Zone 3: 1 primary action */}
         <div className="hidden md:flex items-center gap-3 shrink-0">
-          <a
+          <MagneticButton
+            as="a"
             href="#agenda"
+            maxDelta={6}
+            magneticRadius={20}
+            strength={0.2}
+            damping={0.15}
             className="min-h-[40px] inline-flex items-center justify-center px-4 py-2 text-xs font-semibold tracking-wider uppercase text-[#0C0C0E] bg-[#D8A0A4] hover:bg-[#E2B2B6] active:scale-[0.98] rounded-md transition-all shadow-sm whitespace-nowrap shrink-0 focus-visible:ring-2 focus-visible:ring-[#D8A0A4]"
           >
             Agendar Horário
-          </a>
+          </MagneticButton>
         </div>
 
         {/* Mobile menu button with certified >=44px touch target */}

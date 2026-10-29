@@ -24,7 +24,8 @@ export const SERVICES: ServiceItem[] = [
     tagline: 'A especialidade da profissional com máxima naturalidade e resistência',
     description:
       'Estrutura translúcida e delicada moldada individualmente sobre cada unha. Proporciona curvatura elegante em C, alta durabilidade e acabamento imperceptível que valoriza o formato natural das mãos.',
-    image: '/assets/images/service_fibra_vidro_1792768668516.jpg',
+    image: '/assets/images/service_fibra_vidro_1792768668516.webp',
+    srcSet: '/assets/images/service_fibra_vidro-500w.webp 500w, /assets/images/service_fibra_vidro_1792768668516.webp 1200w',
     duration: 'Aprox. 2h30',
     highlights: ['Curvatura fina e natural', 'Resistência superior', 'Acabamento translúcido'],
     recommendedFor: 'Quem busca unhas longas, simétricas e com resistência estrutural para a rotina diária.'
@@ -35,7 +36,8 @@ export const SERVICES: ServiceItem[] = [
     tagline: 'Brilho vítreo duradouro e unhas impecáveis por semanas',
     description:
       'Aplicação de géis nobres com secagem instantânea em cabine LED/UV. O resultado é um brilho espelhado que não lasca, não perde o brilho e protege a unha natural contra quebras.',
-    image: '/assets/images/service_esmaltacao_gel_1792768669630.jpg',
+    image: '/assets/images/service_esmaltacao_gel_1792768669630.webp',
+    srcSet: '/assets/images/service_esmaltacao_gel-500w.webp 500w, /assets/images/service_esmaltacao_gel_1792768669630.webp 1200w',
     duration: 'Aprox. 1h15',
     highlights: ['Brilho espelhado duradouro', 'Secagem imediata', 'Zero descascamento'],
     recommendedFor: 'Mulheres dinâmicas que exigem esmalte impecável, sem tempo para retoques semanais.'
@@ -46,7 +48,8 @@ export const SERVICES: ServiceItem[] = [
     tagline: 'Francesinha sorriso, glazed pearl e detalhes sofisticados',
     description:
       'Criações personalizadas com estética minimalista e refinada: efeito glazed donut perolado, folha de ouro sutil, micro-francesinhas precisas e acabamento chrome em tons champagne e rose gold.',
-    image: '/assets/images/service_nail_art_1792768669218.jpg',
+    image: '/assets/images/service_nail_art_1792768669218.webp',
+    srcSet: '/assets/images/service_nail_art-500w.webp 500w, /assets/images/service_nail_art_1792768669218.webp 1200w',
     duration: 'Aprox. 1h45',
     highlights: ['Traços finos e simétricos', 'Tendências internacionais', 'Pigmentos perolados premium'],
     recommendedFor: 'Ocasiões especiais, noivas, formaturas ou para expressar personalidade com elegância.'
@@ -57,7 +60,8 @@ export const SERVICES: ServiceItem[] = [
     tagline: 'Alinhamento da estrutura, reposição do ponto de tensão e nova esmaltação',
     description:
       'Procedimento fundamental realizado a cada 20 a 25 dias para acompanhar o crescimento da unha natural, restabelecer o ápice de sustentação e manter a saúde e beleza da fibra.',
-    image: '/assets/images/hero_nail_art_luxury_1792768668218.jpg',
+    image: '/assets/images/hero_nail_art_luxury_1792768668218.webp',
+    srcSet: '/assets/images/hero_nail_art_luxury-500w.webp 500w, /assets/images/hero_nail_art_luxury_1792768668218.webp 1376w',
     duration: 'Aprox. 2h00',
     highlights: ['Preservação da lâmina natural', 'Reposição do ápice', 'Higienização profilática'],
     recommendedFor: 'Manter a integridade física da unha natural e renovar o visual com segurança.'

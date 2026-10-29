@@ -3,23 +3,45 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { SinaisAlongamento } from './components/SinaisAlongamento';
-import { SignatureServices } from './components/SignatureServices';
-import { AboutAnaMaria } from './components/AboutAnaMaria';
-import { AgendaAberta } from './components/AgendaAberta';
-import { WorkGallery } from './components/WorkGallery';
-import { GoogleReviews } from './components/GoogleReviews';
-import { LocationStudio } from './components/LocationStudio';
-import { FaqSection } from './components/FaqSection';
-import { Footer } from './components/Footer';
-import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { AnimatedSection } from './components/AnimatedSection';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { useDynamicSEO } from './hooks/useDynamicSEO';
+
+// Code-split below-the-fold sections for instant FCP and early LCP
+const SinaisAlongamento = lazy(() =>
+  import('./components/SinaisAlongamento').then((m) => ({ default: m.SinaisAlongamento }))
+);
+const SignatureServices = lazy(() =>
+  import('./components/SignatureServices').then((m) => ({ default: m.SignatureServices }))
+);
+const AboutAnaMaria = lazy(() =>
+  import('./components/AboutAnaMaria').then((m) => ({ default: m.AboutAnaMaria }))
+);
+const AgendaAberta = lazy(() =>
+  import('./components/AgendaAberta').then((m) => ({ default: m.AgendaAberta }))
+);
+const WorkGallery = lazy(() =>
+  import('./components/WorkGallery').then((m) => ({ default: m.WorkGallery }))
+);
+const GoogleReviews = lazy(() =>
+  import('./components/GoogleReviews').then((m) => ({ default: m.GoogleReviews }))
+);
+const LocationStudio = lazy(() =>
+  import('./components/LocationStudio').then((m) => ({ default: m.LocationStudio }))
+);
+const FaqSection = lazy(() =>
+  import('./components/FaqSection').then((m) => ({ default: m.FaqSection }))
+);
+const Footer = lazy(() =>
+  import('./components/Footer').then((m) => ({ default: m.Footer }))
+);
+const FloatingWhatsApp = lazy(() =>
+  import('./components/FloatingWhatsApp').then((m) => ({ default: m.FloatingWhatsApp }))
+);
 
 export default function App() {
   // Inicialização do Smooth Scroll ("deslizar no gelo" com resposta rápida)
@@ -55,53 +77,56 @@ export default function App() {
       <Navbar />
 
       <main>
-        {/* Hero Section with Macro Editorial Photography & Trust Pillars */}
+        {/* Critical Above-the-Fold Viewport: Rendered Synchronously for instantaneous FCP and LCP */}
         <Hero />
 
-        {/* Editorial Feature: 3 Sinais do Alongamento Perfeito (Reference 3) with SlideEntrance */}
-        <SinaisAlongamento />
+        {/* Below-the-fold sections loaded asynchronously with zero render-blocking */}
+        <Suspense fallback={<div className="min-h-[200px]" />}>
+          {/* Editorial Feature: 3 Sinais do Alongamento Perfeito */}
+          <SinaisAlongamento />
 
-        {/* Signature Services Grid with Macro Shots & Course Announcement */}
-        <AnimatedSection yOffset={28}>
-          <SignatureServices onSelectServiceForBooking={handleSelectServiceForBooking} />
-        </AnimatedSection>
+          {/* Signature Services Grid with Macro Shots & Course Announcement */}
+          <AnimatedSection yOffset={28}>
+            <SignatureServices onSelectServiceForBooking={handleSelectServiceForBooking} />
+          </AnimatedSection>
 
-        {/* About Ana Maria & Authentic Studio Space in Bacabal */}
-        <AnimatedSection yOffset={28}>
-          <AboutAnaMaria />
-        </AnimatedSection>
+          {/* About Ana Maria & Authentic Studio Space in Bacabal */}
+          <AnimatedSection yOffset={28}>
+            <AboutAnaMaria />
+          </AnimatedSection>
 
-        {/* Agenda Aberta - Conversion Section (Inspired by Reference B) */}
-        <AnimatedSection yOffset={28}>
-          <AgendaAberta selectedServicePreset={selectedServicePreset} />
-        </AnimatedSection>
+          {/* Agenda Aberta - Conversion Section */}
+          <AnimatedSection yOffset={28}>
+            <AgendaAberta selectedServicePreset={selectedServicePreset} />
+          </AnimatedSection>
 
-        {/* Macro Work Gallery & Lightbox Viewer */}
-        <AnimatedSection yOffset={28}>
-          <WorkGallery />
-        </AnimatedSection>
+          {/* Macro Work Gallery & Lightbox Viewer */}
+          <AnimatedSection yOffset={28}>
+            <WorkGallery />
+          </AnimatedSection>
 
-        {/* Verified Google Reviews (5.0 Stars) */}
-        <AnimatedSection yOffset={28}>
-          <GoogleReviews />
-        </AnimatedSection>
+          {/* Verified Google Reviews (5.0 Stars) */}
+          <AnimatedSection yOffset={28}>
+            <GoogleReviews />
+          </AnimatedSection>
 
-        {/* Studio Location & Route in Bacabal */}
-        <AnimatedSection yOffset={28}>
-          <LocationStudio />
-        </AnimatedSection>
+          {/* Studio Location & Route in Bacabal */}
+          <AnimatedSection yOffset={28}>
+            <LocationStudio />
+          </AnimatedSection>
 
-        {/* Frequently Asked Questions */}
-        <AnimatedSection yOffset={28}>
-          <FaqSection />
-        </AnimatedSection>
+          {/* Frequently Asked Questions */}
+          <AnimatedSection yOffset={28}>
+            <FaqSection />
+          </AnimatedSection>
+        </Suspense>
       </main>
 
-      {/* Quiet Footer */}
-      <Footer />
-
-      {/* Discreet Floating Action */}
-      <FloatingWhatsApp />
+      {/* Quiet Footer & Floating Action */}
+      <Suspense fallback={null}>
+        <Footer />
+        <FloatingWhatsApp />
+      </Suspense>
     </div>
   );
 }

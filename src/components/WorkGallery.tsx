@@ -12,6 +12,7 @@ interface GalleryItem {
   categoryLabel: string;
   handwrittenNote: string;
   image: string;
+  srcSet?: string;
   caption: string;
   roundedClass: string;
 }
@@ -24,7 +25,8 @@ const GALLERY_ITEMS: GalleryItem[] = [
     category: 'nailart',
     categoryLabel: 'Nail Art & Detalhes',
     handwrittenNote: 'brilho vítreo sutil',
-    image: '/assets/images/hero_nail_art_luxury_1792768668218.jpg',
+    image: '/assets/images/hero_nail_art_luxury_1792768668218.webp',
+    srcSet: '/assets/images/hero_nail_art_luxury-500w.webp 500w, /assets/images/hero_nail_art_luxury_1792768668218.webp 1376w',
     caption: 'Curvatura elegante, ponta amendoada e detalhe em pó cromado ouro rosé sobre base nude translúcida.',
     roundedClass: 'rounded-hand-1'
   },
@@ -35,7 +37,8 @@ const GALLERY_ITEMS: GalleryItem[] = [
     category: 'fibra',
     categoryLabel: 'Fibra de Vidro',
     handwrittenNote: 'leveza estrutural',
-    image: '/assets/images/service_fibra_vidro_1792768668516.jpg',
+    image: '/assets/images/service_fibra_vidro_1792768668516.webp',
+    srcSet: '/assets/images/service_fibra_vidro-500w.webp 500w, /assets/images/service_fibra_vidro_1792768668516.webp 1200w',
     caption: 'Aplicação minuciosa de fibra com alinhamento simétrico e espessura ultrafina, reproduzindo a leveza da unha natural.',
     roundedClass: 'rounded-hand-2'
   },
@@ -46,7 +49,8 @@ const GALLERY_ITEMS: GalleryItem[] = [
     category: 'gel',
     categoryLabel: 'Esmaltação em Gel',
     handwrittenNote: 'acabamento espelhado',
-    image: '/assets/images/service_esmaltacao_gel_1792768669630.jpg',
+    image: '/assets/images/service_esmaltacao_gel_1792768669630.webp',
+    srcSet: '/assets/images/service_esmaltacao_gel-500w.webp 500w, /assets/images/service_esmaltacao_gel_1792768669630.webp 1200w',
     caption: 'Acabamento espelhado de altíssimo brilho, cuticulagem limpa sem cortes e durabilidade de semanas.',
     roundedClass: 'rounded-hand-3'
   },
@@ -57,7 +61,8 @@ const GALLERY_ITEMS: GalleryItem[] = [
     category: 'nailart',
     categoryLabel: 'Nail Art & Detalhes',
     handwrittenNote: 'traço artesanal fino',
-    image: '/assets/images/service_nail_art_1792768669218.jpg',
+    image: '/assets/images/service_nail_art_1792768669218.webp',
+    srcSet: '/assets/images/service_nail_art-500w.webp 500w, /assets/images/service_nail_art_1792768669218.webp 1200w',
     caption: 'Traço perolado delicado sobre base leitosa perolada, perfeito para ocasiões formais ou uso diário refinado.',
     roundedClass: 'rounded-hand-1'
   }
@@ -214,7 +219,10 @@ export const WorkGallery: React.FC = () => {
               <div className="relative aspect-square overflow-hidden bg-[#1C1A1E]">
                 <ResponsiveImage
                   src={item.image}
+                  srcSet={item.srcSet}
                   alt={`${item.title} - ${item.categoryLabel} por Ana Maria Nail Designer em Bacabal - MA`}
+                  width={400}
+                  height={400}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   loading="lazy"
@@ -286,6 +294,7 @@ export const WorkGallery: React.FC = () => {
             <div className="relative aspect-[4/3] max-h-[55vh] bg-[#0C0C0E] overflow-hidden rounded-t-2xl">
               <ResponsiveImage
                 src={activeLightbox.image}
+                srcSet={activeLightbox.srcSet}
                 alt={activeLightbox.title}
                 className="w-full h-full object-contain"
                 sizes="(max-width: 768px) 100vw, 800px"

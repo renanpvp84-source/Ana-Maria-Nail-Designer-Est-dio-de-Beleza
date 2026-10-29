@@ -24,6 +24,7 @@ export interface SmoothScrollOptions {
  * useSmoothScroll: Inicializa o Lenis com desaceleração progressiva,
  * preservando rolagem nativa no touch/mobile, acessibilidade para
  * prefers-reduced-motion e navegação por teclado/âncoras.
+ * Inicialização pós-render (idle) para não concorrer com FCP/LCP.
  */
 export function useSmoothScroll({
   lerp = 0.09,
@@ -36,32 +37,47 @@ export function useSmoothScroll({
     // 1. Respeito estrito a prefers-reduced-motion
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mediaQuery.matches) {
-      return; // Mantém scroll nativo e imediato sem inércia
+      return;
     }
 
-    // 2. Criação da instância Lenis configurada
-    const lenis = new Lenis({
-      lerp,
-      duration,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Curva exponencial suave
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      syncTouch: false, // PRESERVA ROLAGEM NATIVA EM TOUCH E DISPOSITIVOS MÓVEIS
-      touchMultiplier: 1,
-      infinite: false,
-    });
+    let lenis: Lenis | null = null;
+    let rafId: number | null = null;
+    let isCleanedUp = false;
 
-    lenisRef.current = lenis;
-    window.__lenis = lenis;
+    const startLenis = () => {
+      if (isCleanedUp) return;
 
-    // 3. Loop contínuo com requestAnimationFrame
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
+      // 2. Criação da instância Lenis configurada
+      lenis = new Lenis({
+        lerp,
+        duration,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        syncTouch: false, // Preserva rolagem nativa em touch e dispositivos móveis
+        touchMultiplier: 1,
+        infinite: false,
+      });
+
+      lenisRef.current = lenis;
+      window.__lenis = lenis;
+
+      // 3. Loop contínuo com requestAnimationFrame
+      function raf(time: number) {
+        if (!lenis || isCleanedUp) return;
+        lenis.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
       rafId = requestAnimationFrame(raf);
+    };
+
+    // Defer initialization to idle callback so critical first paint is unblocked
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(startLenis, { timeout: 1200 });
+    } else {
+      setTimeout(startLenis, 100);
     }
-    rafId = requestAnimationFrame(raf);
 
     // 4. Integração suave e acessível com links de âncora (#servicos, #agenda, etc.)
     const handleAnchorClick = (e: MouseEvent) => {
@@ -73,11 +89,14 @@ export function useSmoothScroll({
         const targetElement = document.querySelector(href);
         if (targetElement) {
           e.preventDefault();
-          lenis.scrollTo(targetElement as HTMLElement, {
-            offset: anchorOffset,
-            duration,
-          });
-          // Atualiza a URL sem recarregar a página
+          if (lenis) {
+            lenis.scrollTo(targetElement as HTMLElement, {
+              offset: anchorOffset,
+              duration,
+            });
+          } else {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
           window.history.pushState(null, '', href);
         }
       }
@@ -88,18 +107,19 @@ export function useSmoothScroll({
     // 5. Listener para alterações dinâmicas de prefers-reduced-motion
     const handleMotionPreferenceChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        lenis.destroy();
-        cancelAnimationFrame(rafId);
+        if (lenis) lenis.destroy();
+        if (rafId) cancelAnimationFrame(rafId);
       }
     };
     mediaQuery.addEventListener('change', handleMotionPreferenceChange);
 
     // 6. Limpeza e destruição completa no desmonte do componente
     return () => {
+      isCleanedUp = true;
       document.removeEventListener('click', handleAnchorClick);
       mediaQuery.removeEventListener('change', handleMotionPreferenceChange);
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
+      if (rafId) cancelAnimationFrame(rafId);
+      if (lenis) lenis.destroy();
       lenisRef.current = null;
       delete window.__lenis;
     };

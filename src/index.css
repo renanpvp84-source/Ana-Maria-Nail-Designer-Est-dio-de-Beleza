@@ -170,95 +170,104 @@ html.lenis, html.lenis body {
   will-change: transform, opacity;
 }
 
-/* Modern CSS Motion Path (offset-path / offset-distance / offset-rotate) */
-@supports (offset-path: path("M 0 0")) {
-  .hero-motion-sparkle.is-animating {
-    animation: heroBezierMotion 1.2s cubic-bezier(0.45, 0, 0.25, 1) forwards;
-    offset-path: path("M 30 140 C 220 30, 520 260, 780 80");
-    offset-rotate: auto 20deg;
-  }
-
-  @media (max-width: 768px) {
-    .hero-motion-sparkle.is-animating {
-      offset-path: path("M 15 100 C 100 20, 220 180, 320 60");
-      offset-rotate: auto 15deg;
-    }
-  }
+/* 100% GPU-Composited Hero Sparkle Animation (Zero Main-Thread Paint, Hardware-Accelerated) */
+.hero-motion-sparkle.is-animating {
+  animation: heroCompositedTranslate 1.2s cubic-bezier(0.45, 0, 0.25, 1) forwards;
 }
 
-@keyframes heroBezierMotion {
+@keyframes heroCompositedTranslate {
   0% {
-    offset-distance: 0%;
     opacity: 0;
-    transform: scale(0.35);
+    transform: translate3d(30px, 140px, 0) scale(0.35) rotate(0deg);
   }
   15% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: translate3d(220px, 60px, 0) scale(1.15) rotate(15deg);
   }
   60% {
     opacity: 0.95;
-    transform: scale(1);
+    transform: translate3d(500px, 180px, 0) scale(1) rotate(35deg);
   }
   85% {
     opacity: 0.8;
-    transform: scale(0.85);
+    transform: translate3d(680px, 100px, 0) scale(0.85) rotate(45deg);
   }
   100% {
-    offset-distance: 100%;
     opacity: 0;
-    transform: scale(0.4);
+    transform: translate3d(780px, 80px, 0) scale(0.4) rotate(55deg);
   }
 }
 
-/* Fallback for browsers without CSS Motion Path support */
-@supports not (offset-path: path("M 0 0")) {
+@media (max-width: 768px) {
   .hero-motion-sparkle.is-animating {
-    animation: heroFallbackTranslate 1.2s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+    animation: heroCompositedTranslateMobile 1.2s cubic-bezier(0.45, 0, 0.25, 1) forwards;
   }
 
-  @keyframes heroFallbackTranslate {
+  @keyframes heroCompositedTranslateMobile {
     0% {
       opacity: 0;
-      transform: translate3d(30px, 140px, 0) scale(0.35) rotate(0deg);
+      transform: translate3d(15px, 100px, 0) scale(0.35);
     }
-    15% {
+    20% {
       opacity: 1;
-      transform: translate3d(220px, 60px, 0) scale(1.15) rotate(15deg);
+      transform: translate3d(100px, 35px, 0) scale(1.1);
     }
-    60% {
-      opacity: 0.95;
-      transform: translate3d(500px, 180px, 0) scale(1) rotate(35deg);
-    }
-    85% {
-      opacity: 0.8;
-      transform: translate3d(680px, 100px, 0) scale(0.85) rotate(45deg);
+    65% {
+      opacity: 0.9;
+      transform: translate3d(220px, 130px, 0) scale(0.95);
     }
     100% {
       opacity: 0;
-      transform: translate3d(780px, 80px, 0) scale(0.4) rotate(55deg);
+      transform: translate3d(320px, 60px, 0) scale(0.4);
     }
   }
+}
 
-  @media (max-width: 768px) {
-    @keyframes heroFallbackTranslate {
-      0% {
-        opacity: 0;
-        transform: translate3d(15px, 100px, 0) scale(0.35);
-      }
-      20% {
-        opacity: 1;
-        transform: translate3d(100px, 35px, 0) scale(1.1);
-      }
-      65% {
-        opacity: 0.9;
-        transform: translate3d(220px, 130px, 0) scale(0.95);
-      }
-      100% {
-        opacity: 0;
-        transform: translate3d(320px, 60px, 0) scale(0.4);
-      }
-    }
+/* Static Luxury CTA Interactive Micro-States (Zero Runtime CSS Injection) */
+.ux-cta-interactive {
+  position: relative;
+  overflow: hidden;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 250ms ease,
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              filter 250ms ease !important;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ux-cta-interactive:hover {
+    transform: translateY(-1.5px) scale(1.015);
+    filter: brightness(1.04);
+    box-shadow: 0 8px 24px -6px rgba(216, 160, 164, 0.25);
+  }
+}
+
+.ux-cta-interactive:active {
+  transform: translateY(0.5px) scale(0.985) !important;
+  filter: brightness(0.97) !important;
+  box-shadow: 0 2px 8px -2px rgba(216, 160, 164, 0.15) !important;
+  transition-duration: 120ms !important;
+}
+
+.ux-ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.32) 0%, rgba(216, 160, 164, 0.2) 70%, transparent 100%);
+  transform: scale(0);
+  animation: uxRippleAnim 500ms cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes uxRippleAnim {
+  0% {
+    transform: scale(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
   }
 }
 
@@ -285,8 +294,41 @@ html.lenis, html.lenis body {
 
 /* Fallback if JavaScript is disabled or fails to run */
 .no-js [data-slide-entrance],
-noscript [data-slide-entrance] {
+noscript [data-slide-entrance],
+.no-js .slide-lateral-left,
+.no-js .slide-lateral-right {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* Standalone CSS Slide Lateral Utility Classes */
+.slide-lateral-left {
+  opacity: 0;
+  transform: translate3d(-28px, 0, 0);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.slide-lateral-right {
+  opacity: 0;
+  transform: translate3d(28px, 0, 0);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.slide-lateral-visible {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-lateral-left,
+  .slide-lateral-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 

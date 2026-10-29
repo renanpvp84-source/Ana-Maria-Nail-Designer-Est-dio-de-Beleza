@@ -33,23 +33,25 @@ export const FaqSection: React.FC = () => {
                 key={idx}
                 className="rounded-xl bg-[#141214] border border-[#262328] overflow-hidden transition-colors"
               >
-                <button
-                  type="button"
-                  onClick={() => toggleIndex(idx)}
-                  className="w-full min-h-[52px] px-4 sm:px-6 py-3.5 sm:py-5 flex items-center justify-between text-left gap-3 sm:gap-4 hover:bg-[#1C1A1E]/50 transition-colors cursor-pointer focus:outline-none focus-visible:bg-[#1C1A1E]"
-                  aria-expanded={isOpen}
-                >
-                  <span className="font-serif text-sm sm:text-base lg:text-lg text-[#F7F3F1] font-medium leading-snug">
-                    {faq.question}
-                  </span>
-                  <div
-                    className={`w-6 h-6 rounded-full border border-[#262328] flex items-center justify-center shrink-0 text-[#D8A0A4] transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 bg-[#1C1A1E]' : ''
-                    }`}
+                <h3 className="text-inherit font-normal m-0 p-0">
+                  <button
+                    type="button"
+                    onClick={() => toggleIndex(idx)}
+                    className="w-full min-h-[52px] px-4 sm:px-6 py-3.5 sm:py-5 flex items-center justify-between text-left gap-3 sm:gap-4 hover:bg-[#1C1A1E]/50 transition-colors cursor-pointer focus:outline-none focus-visible:bg-[#1C1A1E]"
+                    aria-expanded={isOpen}
                   >
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                </button>
+                    <span className="font-serif text-sm sm:text-base lg:text-lg text-[#F7F3F1] font-medium leading-snug">
+                      {faq.question}
+                    </span>
+                    <div
+                      className={`w-6 h-6 rounded-full border border-[#262328] flex items-center justify-center shrink-0 text-[#D8A0A4] transition-transform duration-300 ${
+                        isOpen ? 'rotate-180 bg-[#1C1A1E]' : ''
+                      }`}
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
+                  </button>
+                </h3>
 
                 {isOpen && (
                   <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-[#E8D9D4]/80 leading-relaxed border-t border-[#1C1A1E]/60 animate-in fade-in duration-200">

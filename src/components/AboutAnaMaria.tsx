@@ -23,9 +23,9 @@ export const AboutAnaMaria: React.FC = () => {
                       <span className="font-serif text-sm font-semibold text-[#D8A0A4]">AM</span>
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-xs font-semibold text-[#F7F3F1] tracking-wide truncate">
+                      <p className="text-xs font-semibold text-[#F7F3F1] tracking-wide truncate">
                         {BUSINESS_INFO.name} | Nail Designer
-                      </h3>
+                      </p>
                       <p className="text-[11px] text-[#C8AD91] truncate">{BUSINESS_INFO.instagramHandle}</p>
                     </div>
                   </div>
@@ -44,8 +44,13 @@ export const AboutAnaMaria: React.FC = () => {
                 {/* Verified image collage highlighting the authentic space & professional */}
                 <div className="relative aspect-[4/3] bg-[#0C0C0E] overflow-hidden">
                   <ResponsiveImage
-                    src="/assets/aistudio/unhas_6aede811.png"
+                    src="/assets/aistudio/unhas_6aede811.webp"
+                    srcSet="/assets/aistudio/unhas_6aede811-600w.webp 600w, /assets/aistudio/unhas_6aede811.webp 1920w"
+                    fallbackSrc="/assets/aistudio/unhas_6aede811.webp"
                     alt="Perfil e trabalhos reais de Ana Maria Nail Designer em Bacabal"
+                    width={480}
+                    height={360}
+                    aspectRatioClass="aspect-[4/3]"
                     className="w-full h-full object-cover object-top hover:scale-103 transition-transform duration-700"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
                     loading="lazy"

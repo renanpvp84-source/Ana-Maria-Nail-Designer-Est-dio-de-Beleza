@@ -26,9 +26,9 @@ export const Footer: React.FC = () => {
 
           {/* Quick Nav Links */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs uppercase tracking-wider text-[#F7F3F1] font-semibold">
+            <p className="text-xs uppercase tracking-wider text-[#F7F3F1] font-semibold">
               Navegação
-            </h4>
+            </p>
             <ul className="space-y-1 sm:space-y-2 text-xs text-[#E8D9D4]/75">
               <li>
                 <a href="#servicos" className="min-h-[36px] flex items-center hover:text-[#F7F3F1] transition-colors">
@@ -65,9 +65,9 @@ export const Footer: React.FC = () => {
 
           {/* Direct Channels */}
           <div className="md:col-span-4 space-y-3 sm:space-y-4">
-            <h4 className="text-xs uppercase tracking-wider text-[#F7F3F1] font-semibold">
+            <p className="text-xs uppercase tracking-wider text-[#F7F3F1] font-semibold">
               Canais Oficiais
-            </h4>
+            </p>
             <div className="space-y-2 sm:space-y-2.5">
               <a
                 href={BUSINESS_INFO.whatsappLink}
